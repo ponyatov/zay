@@ -35,8 +35,8 @@ S      += $(E) $(X)
 # \ all
 .PHONY: all
 all: $(E) $(X)
-.PHONY: iex
-iex:
+.PHONY: repl
+repl:
 	$(IEX) -S mix phx.server
 	$(MIX)    format
 	$(MAKE)   $@

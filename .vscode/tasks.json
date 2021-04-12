@@ -13,5 +13,17 @@
             "command":        "make update",
             "problemMatcher": []
         },
+        {
+            "label":          "make: web",
+            "type":           "shell",
+            "command":        "make web",
+            "problemMatcher": []
+        },
+        {
+            "label":          "metaL: repl",
+            "type":           "shell",
+            "command":        "make repl",
+            "problemMatcher": []
+        },
     ]
 }
