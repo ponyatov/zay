@@ -1,0 +1,4 @@
+git make curl
+sqlite3
+erlang elixir
+openjdk-11-jdk

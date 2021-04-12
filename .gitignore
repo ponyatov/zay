@@ -1,0 +1,19 @@
+*~
+*.swp
+*.log
+
+/*.db
+
+# Erlang/Elixir
+
+*.beam
+/erl_crash.dump
+/_build/
+/deps/
+/mix.lock
+/assets/node_modules/
+/priv/static/
+
+# Android
+
+!.gitignore
