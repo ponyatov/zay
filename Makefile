@@ -27,7 +27,8 @@ IEX     = iex
 # \ src
 E      += $(shell find src    -type f -regex ".+.erl$$")
 X      += $(shell find lib    -type f -regex ".+.ex$$")
-X      += $(shell find config -type f -regex ".+.exs$$")
+# X    += $(shell find config -type f -regex ".+.exs$$")
+X      += config/config.exs config/dev.exs config/test.exs
 X      += mix.exs
 S      += $(E) $(X)
 # / src
@@ -66,13 +67,13 @@ doc/Erlang/Phoenix.pdf:
 install: $(OS)_install js doc
 	$(MAKE) $(PIP)
 	$(MAKE) update
-	$(MIX) archive.install hex phx_new 1.5.8
-	$(MIX) ecto.create
+	$(MIX)  archive.install hex phx_new 1.5.8
+	$(MIX)  ecto.create
 .PHONY: update
 update: $(OS)_update
-	$(MIX) local.hex local.rebar
-	$(MIX) deps.get
-	$(MIX) deps.compile
+	$(MIX)  local.hex local.rebar
+	$(MIX)  deps.get
+	$(MIX)  deps.compile
 .PHONY: Linux_install Linux_update
 Linux_install Linux_update:
 	sudo apt update
@@ -87,7 +88,7 @@ js:
 # \ merge
 MERGE += README.md Makefile .gitignore apt.txt apt.dev LICENSE $(S)
 MERGE += .vscode bin doc tmp src test
-MERGE += config lib test mix.exs .formatter.exs
+MERGE += lib test mix.exs .formatter.exs
 MERGE += assets priv
 MERGE += geo
 

@@ -1,0 +1,8 @@
+@media print {
+    @page             { size: portrait; size: A4; margin:5mm; margin-left:25mm; }
+    html,body         { background: white; padding:0; margin:0; }
+    html              { border: 1px solid blue; }
+    body              { border: 1px solid red;  }
+    h1,h2,h3,h4,h5,h6 { color: navy;  }
+    a                 { color: black; }
+}

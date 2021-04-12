@@ -6,11 +6,12 @@ use Mix.Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :zay, Zay.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "zay_test#{System.get_env("MIX_TEST_PARTITION")}",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  # username: "postgres",
+  # password: "postgres",
+  # database: "zay_test#{System.get_env("MIX_TEST_PARTITION")}",
+  # hostname: "localhost",
+  # pool: Ecto.Adapters.SQL.Sandbox
+  database: "tmp/test.db"
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
