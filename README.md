@@ -5,6 +5,8 @@
 * calendar
 * contacts
 * messenger
+* notes
+* knowledge base
 
 (c) Dmitry Ponyatov <<dponyatov@gmail.com>> 2020 MIT
 

@@ -84,4 +84,33 @@ js:
 # / js
 # / install
 
+# \ merge
+MERGE += README.md Makefile .gitignore apt.txt apt.dev LICENSE $(S)
+MERGE += .vscode bin doc tmp src test
+MERGE += config lib test mix.exs .formatter.exs
+MERGE += assets priv
+MERGE += geo
 
+.PHONY: main
+main:
+	git push -v
+	git checkout $@
+	git pull -v
+	git checkout shadow -- $(MERGE)
+.PHONY: shadow
+shadow:
+	git push -v
+	git checkout $@
+	git pull -v
+.PHONY: release
+release:
+	git tag $(NOW)-$(REL)
+	git push -v && git push -v --tags
+	$(MAKE) shadow
+.PHONY: zip
+zip:
+	git archive \
+		--format zip \
+		--output $(TMP)/$(MODULE)_$(NOW)_$(REL).src.zip \
+	HEAD
+# / merge

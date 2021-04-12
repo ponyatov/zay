@@ -1,3 +1,10 @@
+# This file is responsible for configuring your application
+# and its dependencies with the aid of the Mix.Config module.
+#
+# This configuration file is loaded before any dependency and
+# is restricted to this project.
+
+# General application configuration
 use Mix.Config
 
 config :zay,
@@ -6,19 +13,19 @@ config :zay,
 # Configures the endpoint
 config :zay, ZayWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "0Sbq7vR3huJCSE7YlYWMisxB+OQapgOs+wu9g/Hlt7tUK7KncWL5w0llO2AK17Gf",
+  secret_key_base: "9nqgMV+lxOtBpCNZ7JycPXJQQz/6TavddOcPnkChqYdjDHSeTJycfu10IXB04BnM",
   render_errors: [view: ZayWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Zay.PubSub,
-  live_view: [signing_salt: "sv25ryuU"]
+  live_view: [signing_salt: "IYC1Yv8W"]
 
+# Configures Elixir's Logger
 config :logger, :console,
-  format: "$date $time $metadata [$level] $levelpad$message\n",
-  metadata: [:pid, :mfa]
+  format: "$time $metadata[$level] $message\n",
+  metadata: [:request_id]
 
-# metadata: :all
-
+# Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :exsync, logging_enabled: false, src_monitor: true
-
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

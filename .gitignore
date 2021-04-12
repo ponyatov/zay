@@ -2,8 +2,6 @@
 *.swp
 *.log
 
-/*.db
-
 # Erlang/Elixir
 
 *.beam
