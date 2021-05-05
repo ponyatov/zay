@@ -2,16 +2,13 @@
 *.swp
 *.log
 
-# Erlang/Elixir
+/docs/
 
-*.beam
-/erl_crash.dump
+# \ Erlang
 /_build/
 /deps/
 /mix.lock
 /assets/node_modules/
-/priv/static/
-
-# Android
+# / Erlang
 
 !.gitignore

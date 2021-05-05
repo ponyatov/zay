@@ -4,6 +4,7 @@ OS      = $(shell uname -s)
 MACHINE = $(shell uname -m)
 NOW     = $(shell date +%d%m%y)
 REL     = $(shell git rev-parse --short=4 HEAD)
+BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
 CORES   = $(shell grep processor /proc/cpuinfo| wc -l)
 # / var
 
@@ -14,12 +15,15 @@ DOC     = $(CWD)/doc
 TMP     = $(CWD)/tmp
 LIB     = $(CWD)/lib
 SRC     = $(CWD)/src
+TEST    = $(CWD)/test
+GZ      = $(HOME)/gz
 # / dir
 
 # \ tool
 CURL    = curl -L -o
-ERL     = erl
+REBAR   = $(HOME)/bin/rebar3
 ERLC    = erlc
+ERL     = erl
 MIX     = mix
 IEX     = iex
 # / tool
@@ -27,91 +31,76 @@ IEX     = iex
 # \ src
 E      += $(shell find src    -type f -regex ".+.erl$$")
 X      += $(shell find lib    -type f -regex ".+.ex$$")
-# X    += $(shell find config -type f -regex ".+.exs$$")
-X      += config/config.exs config/dev.exs config/test.exs
-X      += mix.exs
+X      += $(shell find test   -type f -regex ".+.exs$$")
+X      += $(shell find config -type f -regex ".+.exs$$")
+X      += .formatter.exs mix.exs
 S      += $(E) $(X)
 # / src
 
 # \ all
-.PHONY: all
-all: $(E) $(X)
 .PHONY: repl
 repl:
-	$(IEX) -S mix phx.server
-	$(MIX)    format
-	$(MAKE)   $@
-.PHONY: web
-web: $(E) $(X)
-	$(MIX)    phx.server
+	$(IEX)  -S mix
+	$(MAKE) format
+	$(MAKE) $@
+
+.PHONY: test
+test:
+	$(MIX) test
+
+.PHONY: format
+format: tmp/format
+tmp/format:
+	$(MAKE) test
+	$(MIX)  format
 # / all
 
-# \ doc
-.PHONY: doc
-doc: \
-	doc/Erlang/LYSE_ru.pdf doc/Erlang/Armstrong_ru.pdf \
-	doc/Erlang/ElixirInAction.pdf doc/Erlang/Phoenix.pdf
-
-doc/Erlang/LYSE_ru.pdf:
-	$(CURL) $@ https://github.com/mpyrozhok/learnyousomeerlang_ru/raw/master/pdf/learnyousomeerlang_ru.pdf
-doc/Erlang/Armstrong_ru.pdf:
-	$(CURL) $@ https://github.com/dyp2000/Russian-Armstrong-Erlang/raw/master/pdf/fullbook.pdf
-doc/Erlang/ElixirInAction.pdf:
-	$(CURL) $@ https://github.com/levunguyen/CGDN-Ebooks/raw/master/Java/Elixir%20in%20Action%2C%202nd%20Edition.pdf
-doc/Erlang/Phoenix.pdf:
-	$(CURL) $@ http://www.r-5.org/files/books/computers/languages/erlang/phoenix/Chris_McCord_Bruce_Tate_Jose_Valim-Programming_Phoenix-EN.pdf
-# / doc
-
 # \ install
-.PHONY: install
-install: $(OS)_install js doc
-	$(MAKE) $(PIP)
+.PHONY: install update
+install: $(OS)_install
+	$(MAKE) rebar
 	$(MAKE) update
-	$(MIX)  archive.install hex phx_new 1.5.8
-	$(MIX)  ecto.create
-.PHONY: update
 update: $(OS)_update
 	$(MIX)  local.hex local.rebar
 	$(MIX)  deps.get
 	$(MIX)  deps.compile
+	$(MIX)  ecto.create
+
 .PHONY: Linux_install Linux_update
 Linux_install Linux_update:
 	sudo apt update
 	sudo apt install -u `cat apt.txt apt.dev`
-
-# \ js
-.PHONY: js
-js:
-# / js
+# \ erlang
+.PHONY: rebar
+rebar: $(REBAR)
+$(REBAR):
+	$(CURL) $@ https://s3.amazonaws.com/rebar3/rebar3 && chmod +x $@
+	$(REBAR) local install
+# / erlang
 # / install
 
 # \ merge
-MERGE += README.md Makefile .gitignore apt.txt apt.dev LICENSE $(S)
-MERGE += .vscode bin doc tmp src test
-MERGE += lib test mix.exs .formatter.exs
-MERGE += assets priv
+MERGE  = README.md Makefile .gitignore apt.txt apt.dev .vscode $(S)
+MERGE += bin doc lib include src test tmp
 MERGE += geo
 
-.PHONY: main
-main:
-	git push -v
-	git checkout $@
-	git pull -v
-	git checkout shadow -- $(MERGE)
-.PHONY: shadow
-shadow:
-	git push -v
-	git checkout $@
-	git pull -v
-.PHONY: release
-release:
-	git tag $(NOW)-$(REL)
-	git push -v && git push -v --tags
-	$(MAKE) shadow
 .PHONY: zip
 zip:
 	git archive \
 		--format zip \
-		--output $(TMP)/$(MODULE)_$(NOW)_$(REL).src.zip \
+		--output $(TMP)/$(MODULE)_$(BRANCH)_$(NOW)_$(REL).src.zip \
 	HEAD
+
+.PHONY: dev
+dev:
+	git push -v
+	git checkout $@
+	git pull -v
+	git checkout ponymuck -- $(MERGE)
+
+.PHONY: ponymuck
+ponymuck:
+	git push -v
+	git checkout $@
+	git pull -v
 # / merge

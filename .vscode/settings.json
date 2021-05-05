@@ -14,7 +14,7 @@
             "sequence": [
                 "workbench.action.files.saveAll",
                 {"command": "workbench.action.terminal.sendSequence",
-                    "args": {"text": "\u000D System.stop \u000D"}}
+                    "args": {"text": "\u000DSystem.stop\u000D"}}
             ]
         },
     ],
@@ -25,20 +25,17 @@
         "**/docs/**":true,
         // \ erlang
         "**/_build/**":true, "**/deps/**":true,
-        "**/target/**":true, "**/.elixir_ls/**":true,
-        "**/.formatter.exs": true, "**/mix.lock": true,
+        "**/.elixir_ls/**":true, "**/mix.lock":true,
         // / erlang
     },
     "files.exclude": {
         "**/docs/**":true,
         // \ erlang
         "**/_build/**":true, "**/deps/**":true,
-        "**/target/**":true, "**/.elixir_ls/**":true,
-        "**/.formatter.exs": true, "**/mix.lock": true,
+        "**/.elixir_ls/**":true, "**/mix.lock":true,
         // / erlang
     },
     "files.associations": {
-        "*rc": "shellscript",
     },
     // / files
 
@@ -47,6 +44,8 @@
     "editor.rulers": [80],
     "workbench.tree.indent": 32,
     // / editor
-    "elixirLS.fetchDeps": false,
-    "browser-preview.startUrl": "127.0.0.1:12345/"
+
+    // \ misc
+    "browser-preview.startUrl": "127.0.0.1:22041/"
+    // / misc
 }

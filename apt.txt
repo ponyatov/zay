@@ -1,4 +1,4 @@
 git make curl
+erlang-dev inotify-tools
+elixir
 sqlite3
-erlang elixir
-openjdk-11-jdk

@@ -14,15 +14,15 @@
             "problemMatcher": []
         },
         {
-            "label":          "make: web",
+            "label":          "git: dev",
             "type":           "shell",
-            "command":        "make web",
+            "command":        "make dev",
             "problemMatcher": []
         },
         {
-            "label":          "metaL: repl",
+            "label":          "git: ponymuck",
             "type":           "shell",
-            "command":        "make repl",
+            "command":        "make ponymuck",
             "problemMatcher": []
         },
     ]
